@@ -3,7 +3,6 @@
 # On va commencer par écrire une fonction qui calcule la valeur de la fonction n décrite chap 1.6 :
 def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de racines
     # TODO : Trouver un moyen de vérifier que sigma appartient à W
-    delta = W.simple_roots()
     pi = Set(W.positive_roots())
     minus_pi = Set(W.roots()).difference(pi)
     res = [] #liste qui contiendra l'intersection de pi et de sigma ^-1 (-pi)
@@ -22,6 +21,29 @@ def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de
 
 
 ### tests ###
-def test(n) :
-    L=RootSystem(["A",n]).ambient_space()
-    return L.plot(roots="all", reflection_hyperplanes=False, fundamental_weights=False).show(figsize=15)
+def testLength(type, nMin, nMax) :
+    for i in range(nMin, nMax+1) :
+        W = WeylGroup([type, i], implementation="permutation")
+        print(type)
+        print(i)
+        L = Set(W.roots())
+        for sigma in W.iteration("breadth", True):
+            if not(sigma.length() == n(sigma,W)):
+                return False
+        print("okay")
+    return True
+
+def testLength2(type, nMin, nMax) :
+    for i in range(nMin, nMax+1) :
+        W = WeylGroup([type, i], implementation="permutation")
+        print(type)
+        print(i)
+        L = Set(W.roots())
+        for sigma in W.iteration("breadth", True):
+            print(sigma)
+            print(n(sigma,W))
+        print("okay")
+
+def test(type, n) :
+    L=RootSystem([type,n]).ambient_space()
+    return L.plot(roots="all", reflection_hyperplanes="all", fundamental_weights=False).show(figsize=15)
