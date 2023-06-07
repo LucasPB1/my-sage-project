@@ -16,6 +16,12 @@ def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de
 # Par un lemme des deux livres, length(sigma) = n(sigma), donc notre fonction n (que je testerai pour d'autres que A2 plus tard)
 # vaut length
 
+def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de réflexions simples
+    w = W.one() #TODO : Tenter d'utiliser la matrice de Cartan pour 
+    for s in sigma :
+        w = w * s
+    if n(w,W) == len(sigma): # On commence par considérer le cas où sigma est irréductible
+        return sigma
 
 
 
