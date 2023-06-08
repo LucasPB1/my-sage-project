@@ -1,4 +1,5 @@
 ### main functions ### On va considérer un produit de reflexions simples (comme une liste) ?
+                        ## Fonctionne sur l'implémentation en permutation
 
 # On va commencer par écrire une fonction qui calcule la valeur de la fonction n décrite chap 1.6 :
 def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de racines
@@ -16,12 +17,22 @@ def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de
 # Par un lemme des deux livres, length(sigma) = n(sigma), donc notre fonction n (que je testerai pour d'autres que A2 plus tard)
 # vaut length
 
+def rootActionEquality(i,j,sigma,W): # Pour tester plus clairement si l'image par s_i+1, ..., s_j-1 de alpha_i est alpha_j
+    return
+
+
 def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de réflexions simples
-    w = W.one() #TODO : Tenter d'utiliser la matrice de Cartan pour 
+    w = W.one() #TODO : Tenter d'utiliser la matrice de Cartan
     for s in sigma :
         w = w * s
     if n(w,W) == len(sigma): # On commence par considérer le cas où sigma est irréductible
         return sigma
+    else :
+        for i in range(0, len(L) - 1):
+            for j in range(i + 1, len(L)):
+                return sigma ##Utiliser W.simple_root_index(i)
+
+
 
 
 
