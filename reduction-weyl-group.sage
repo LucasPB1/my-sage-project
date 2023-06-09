@@ -28,9 +28,30 @@ def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de
     if n(w,W) == len(sigma): # On commence par considérer le cas où sigma est irréductible
         return sigma
     else :
-        for i in range(0, len(L) - 1):
-            for j in range(i + 1, len(L)):
-                return sigma ##Utiliser W.simple_root_index(i)
+        Condition1 = False
+        j = 1     ##Utiliser W.simple_root_index(i)
+        while (j < len(sigma)):
+            s = W.one()
+            alpha = W.simple_root_index(j)
+            i = 0
+            while (i < j):
+                s = s * sigma[i]
+                alpha = s.action(W.simple_root_index(j))
+                Condition1 = (W.simple_root_index(i) == alpha)
+                if Condition1:
+                    break
+                i += 1
+            if Condition1 :
+                break
+            j += 1
+        return 0
+            
+
+            
+                
+
+
+
 
 
 
