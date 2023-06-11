@@ -18,18 +18,18 @@ def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de
 # vaut length
 
 def rootActionEquality(i,j,sigma,W): # Pour tester plus clairement si l'image par s_i+1, ..., s_j-1 de alpha_i est alpha_j
-    return
+    return ## Peut-être que j'écrirai une fonction auxiliaire en fonction de la suite du projet
 
 
 def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de réflexions simples
-    w = W.one() #TODO : Tenter d'utiliser la matrice de Cartan
+    w = W.one()
     for s in sigma :
         w = w * s
     if n(w,W) == len(sigma): # On commence par considérer le cas où sigma est irréductible
         return sigma
-    else :
+    else : ## Comme len(sigma) >= n(sigma), on écrira éventuellement le cas d'erreur plus tard
         Condition1 = False
-        j = 1     ##Utiliser W.simple_root_index(i)
+        j = 1
         while (j < len(sigma)):
             s = W.one()
             alpha = W.simple_root_index(j)
@@ -44,19 +44,7 @@ def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de
             if Condition1 :
                 break
             j += 1
-        return 0
-            
-
-            
-                
-
-
-
-
-
-
-
-
+        return [sigma[i], sigma[j]]  #Pour faire des tests et vérifier qu'il prend les bons i et j
 
 ### tests ###
 def testLength(type, nMin, nMax) :
