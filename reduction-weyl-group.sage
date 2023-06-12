@@ -20,6 +20,11 @@ def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de
 def rootActionEquality(i,j,sigma,W): # Pour tester plus clairement si l'image par s_i+1, ..., s_j-1 de alpha_i est alpha_j
     return ## Peut-être que j'écrirai une fonction auxiliaire en fonction de la suite du projet
 
+def associate_root(sigma,W):
+    for alpha in W.simple_roots():
+        if sigma.action(alpha) == - alpha :
+            return alpha
+    return -1
 
 def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de réflexions simples
     w = W.one()
@@ -32,12 +37,12 @@ def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de
         j = 1
         while (j < len(sigma)):
             s = W.one()
-            alpha = W.simple_root_index(j)
+            alpha = associate_root(sigma[j],W)
             i = 0
             while (i < j):
                 s = s * sigma[i]
-                alpha = s.action(W.simple_root_index(j)) ##ERREUR ICI À CORRIGER
-                Condition1 = (W.simple_root_index(i) == alpha)
+                alphaI = s.action(associate_root(sigma[j],W)) ##ERREUR ICI À CORRIGER
+                Condition1 = (associate_root(sigma[i],W) == alphaI)
                 if Condition1:
                     break
                 i += 1
@@ -53,7 +58,7 @@ def testLength(type, nMin, nMax) :
         print(type)
         print(i)
         L = Set(W.roots())
-        for sigma in W.iteration("breadth", True):
+        for sigma in W.iteration("depth", False):
             if not(sigma.length() == n(sigma,W)):
                 return False
         print("okay")
@@ -65,7 +70,7 @@ def testLength2(type, nMin, nMax) :
         print(type)
         print(i)
         L = Set(W.roots())
-        for sigma in W.iteration("breadth", True):
+        for sigma in W.iteration("depth", False):
             print(sigma)
             print(n(sigma,W))
         print("okay")
