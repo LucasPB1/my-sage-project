@@ -36,7 +36,7 @@ def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de
             i = 0
             while (i < j):
                 s = s * sigma[i]
-                alpha = s.action(W.simple_root_index(j))
+                alpha = s.action(W.simple_root_index(j)) ##ERREUR ICI À CORRIGER
                 Condition1 = (W.simple_root_index(i) == alpha)
                 if Condition1:
                     break
