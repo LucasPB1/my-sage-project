@@ -20,7 +20,7 @@ def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de
 def rootActionEquality(i,j,sigma,W): # Pour tester plus clairement si l'image par s_i+1, ..., s_j-1 de alpha_i est alpha_j
     return ## Peut-être que j'écrirai une fonction auxiliaire en fonction de la suite du projet
 
-def associate_root(sigma,W):
+def associate_root(sigma,W): ##Fonctionne dans A2
     for alpha in W.simple_roots():
         if sigma.action(alpha) == - alpha :
             return alpha
@@ -35,13 +35,14 @@ def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de
     else : ## Comme len(sigma) >= n(sigma), on écrira éventuellement le cas d'erreur plus tard
         Condition1 = False
         j = 1
+        i = 0
         while (j < len(sigma)):
             s = W.one()
             alpha = associate_root(sigma[j],W)
             i = 0
             while (i < j):
                 s = s * sigma[i]
-                alphaI = s.action(associate_root(sigma[j],W)) ##ERREUR ICI À CORRIGER
+                alphaI = s.action(associate_root(sigma[j],W))
                 Condition1 = (associate_root(sigma[i],W) == alphaI)
                 if Condition1:
                     break
@@ -49,7 +50,23 @@ def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de
             if Condition1 :
                 break
             j += 1
-        return [sigma[i], sigma[j]]  #Pour faire des tests et vérifier qu'il prend les bons i et j
+        return i,j  #sigma[j] out of range
+
+def deletionConditionTheorem2(sigma,W): #version alternative pour tester si des boucles for ne sont pas plus simples
+    w = W.one()
+    for s in sigma :
+        w = w * s
+    if n(w,W) == len(sigma):
+        return sigma
+    else :
+        for s in sigma:
+            w = W.one()
+            alpha = associate_root(s,W)
+            for i in range(j):
+                w = w * s
+                alphaI = s.action(associate_root(sigma[j],W))
+                if associate_root(sigma[i],W) == alphaI:
+                    return i,j  #sigma[j] out of range
 
 ### tests ###
 def testLength(type, nMin, nMax) :
