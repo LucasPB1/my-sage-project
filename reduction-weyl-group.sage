@@ -26,6 +26,12 @@ def associate_root(sigma,W): ##Fonctionne dans A2
             return alpha
     return -1
 
+def constructPartialSigma(sigma, i, j, W):
+    w = W.one()
+    for s in sigma[i+1:j]:
+        w = s * w ## J'ai un peu l'impression de construire la réciproque, j'ai du mal à comprendre
+    return w
+
 def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de réflexions simples
     w = W.one()
     for s in sigma :
@@ -53,20 +59,21 @@ def deletionConditionTheorem(sigma,W): #sigma est considéré comme une liste de
         return i,j  #sigma[j] out of range
 
 def deletionConditionTheorem2(sigma,W): #version alternative pour tester si des boucles for ne sont pas plus simples
+##VERSION FONCTIONNELLE !!!!!!
     w = W.one()
     for s in sigma :
         w = w * s
     if n(w,W) == len(sigma):
         return sigma
     else :
-        for s in sigma:
-            w = W.one()
-            alpha = associate_root(s,W)
+        for j in range(1,len(sigma),1):
+            alpha = associate_root(sigma[j],W)
             for i in range(j):
-                w = w * s
-                alphaI = s.action(associate_root(sigma[j],W))
+                w = constructPartialSigma(sigma, i, j, W)
+                alphaI = w.action(alpha)
                 if associate_root(sigma[i],W) == alphaI:
                     return i,j  #sigma[j] out of range
+        return -1
 
 ### tests ###
 def testLength(type, nMin, nMax) :
