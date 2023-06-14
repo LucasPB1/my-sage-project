@@ -72,7 +72,10 @@ def deletionConditionTheorem2(sigma,W): #version alternative pour tester si des 
                 w = constructPartialSigma(sigma, i, j, W)
                 alphaI = w.action(alpha)
                 if associate_root(sigma[i],W) == alphaI:
-                    return i,j  #sigma[j] out of range
+                    ## return i,j ##Je garde la ligne au cas où je voudrais l'utiliser
+                    del(sigma[j])
+                    del(sigma[i])
+                    return sigma
         return -1
     ##Testé dans A2,A3,A4,B2,B3,G2,C3,C4,D4,D5,F4,E6,E7,E8
 
