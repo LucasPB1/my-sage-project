@@ -74,7 +74,7 @@ def deletionConditionTheorem2(sigma,W): #version alternative pour tester si des 
                 if associate_root(sigma[i],W) == alphaI:
                     return i,j  #sigma[j] out of range
         return -1
-    ##Testé dans A2,A3,A4,B2,B3,G2,C3,C4,D4,D5,F4,E6
+    ##Testé dans A2,A3,A4,B2,B3,G2,C3,C4,D4,D5,F4,E6,E7,E8
 
 ### tests ###
 def testLength(type, nMin, nMax) :
