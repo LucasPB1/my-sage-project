@@ -66,18 +66,43 @@ def deletionConditionTheorem2(sigma,W): #version alternative pour tester si des 
     if n(w,W) == len(sigma):
         return sigma
     else :
-        for j in range(1,len(sigma),1):
-            alpha = associate_root(sigma[j],W)
+        sigma2 = sigma.copy()
+        for j in range(1,len(sigma2),1):
+            alpha = associate_root(sigma2[j],W)
             for i in range(j):
-                w = constructPartialSigma(sigma, i, j, W)
+                w = constructPartialSigma(sigma2, i, j, W)
                 alphaI = w.action(alpha)
-                if associate_root(sigma[i],W) == alphaI:
+                if associate_root(sigma2[i],W) == alphaI:
                     ## return i,j ##Je garde la ligne au cas où je voudrais l'utiliser
-                    del(sigma[j])
-                    del(sigma[i])
-                    return sigma
+                    del(sigma2[j])
+                    del(sigma2[i])
+                    return sigma2
         return -1
     ##Testé dans A2,A3,A4,B2,B3,G2,C3,C4,D4,D5,F4,E6,E7,E8
+
+def reduction(sigma,W): ## Version "naïve" très certainement fonctionnelle
+    l = deletionConditionTheorem2(sigma,W)
+    if not(sigma == l):
+        return reduction(l,W)
+    else :
+        return deletionConditionTheorem2(l,W)
+
+def reduction2(sigma,W) : ##Version non aboutie avec une meilleure complexité
+    w = W.one()
+    sigma2 = sigma.copy()
+    for s in sigma :
+        w = w * s
+    l = n(w,W)
+    while(len(sigma2) > l) :
+        for j in range(1,len(sigma2)):
+            alpha = associate_root(sigma2[j],W)
+            for i in range(j):
+                w = constructPartialSigma(sigma2, i, j, W)
+                alphaI = w.action(alpha)
+                if associate_root(sigma2[i],W) == alphaI:
+                    del(sigma2[j])
+                    del(sigma2[i])
+    return sigma2
 
 ### tests ###
 def testLength(type, nMin, nMax) :
