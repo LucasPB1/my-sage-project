@@ -18,7 +18,12 @@ def n(sigma, W) : #sigma est un élément d'un groupe de Weyl W d'un système de
 # vaut length
 
 def rootActionEquality(i,j,sigma,W): # Pour tester plus clairement si l'image par s_i+1, ..., s_j-1 de alpha_i est alpha_j
-    return ## Peut-être que j'écrirai une fonction auxiliaire en fonction de la suite du projet
+    sigma2 = sigma.copy()
+    alpha = associate_root(sigma2[j],W)
+    w = constructPartialSigma(sigma2, i, j, W)
+    alphaI = w.action(alpha)
+    return associate_root(sigma2[i],W) == alphaI
+
 
 def associate_root(sigma,W): ##Fonctionne dans A2
     for alpha in W.simple_roots():
@@ -85,23 +90,31 @@ def reduction(sigma,W): ## Version "naïve" très certainement fonctionnelle
     if not(sigma == l):
         return reduction(l,W)
     else :
-        return deletionConditionTheorem2(l,W)
+        ##return deletionConditionTheorem2(l,W) ##inutile, une occurence en trop
+        return l
 
 def reduction2(sigma,W) : ##Version non aboutie avec une meilleure complexité
     w = W.one()
+    b = False
     sigma2 = sigma.copy()
     for s in sigma :
         w = w * s
     l = n(w,W)
-    while(len(sigma2) > l) :
-        for j in range(1,len(sigma2)):
+    while len(sigma2) > l :
+        j = 1
+        while j < len(sigma2) and not(b):
             alpha = associate_root(sigma2[j],W)
-            for i in range(j):
+            i = 0
+            while i < j and not(b):
                 w = constructPartialSigma(sigma2, i, j, W)
                 alphaI = w.action(alpha)
                 if associate_root(sigma2[i],W) == alphaI:
                     del(sigma2[j])
                     del(sigma2[i])
+                    b = True
+                i += 1
+            j += 1
+        b = False
     return sigma2
 
 ### tests ###
@@ -131,3 +144,27 @@ def testLength2(type, nMin, nMax) :
 def test(type, n) :
     L=RootSystem([type,n]).ambient_space()
     return L.plot(roots="all", reflection_hyperplanes="all", fundamental_weights=False).show(figsize=15)
+
+def test3(sigma,W) : ##Version non aboutie avec une meilleure complexité
+    w = W.one()
+    b = False
+    for s in sigma :
+        w = w * s
+    l = n(w,W)
+    while len(sigma) > l :
+        j = 1
+        while ((j < len(sigma)) and not(b)):
+            print(sigma[j])
+            alpha = associate_root(sigma[j],W)
+            i = 0
+            while ((i < j) and (not(b))):
+                w = constructPartialSigma(sigma, i, j, W)
+                alphaI = w.action(alpha)
+                if associate_root(sigma[i],W) == alphaI:
+                    sigma.pop(j)
+                    sigma.pop(i)
+                    b = True
+                i += 1
+            j += 1
+        b = False
+    return sigma
